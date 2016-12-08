@@ -1,4 +1,6 @@
 import numpy as np
+import json
+import os
 
 class NeuralNetwork:
 	"""Creates a Neural Network"""
@@ -72,7 +74,7 @@ class NeuralNetwork:
 		print("Creating the synapse...")
 
 		for (out,inp) in zip(self.Dimensions[:-1],self.Dimensions[1:]):
-			self.Synapse.append(np.random.normal(scale=scale, size=(inp,out+1)))
+			self.Synapse.append(np.random.normal(scale=0.2, size=(inp,out+1)))
 		print("Created the synapse with {} elements.".format(len(self.Synapse)))
 
 
@@ -234,20 +236,43 @@ class NeuralNetwork:
 			self.SupervisedOutputs=np.vstack([self.SupervisedOutputs,output])
 
 
+	def Save(self,location):
+		#file = open(location, 'wb')
+		out_obj=dict()
+		out_obj["Dimensions"]=self.Dimensions
+		out_obj["Synapse"]=list()
+		for i in range(len(self.Synapse)):
+			np.savetxt("layer.out", self.Synapse[i])
+			layer_data=open("layer.out").read()
+			layer_data = layer_data.replace("\n", " <break> ")
+			out_obj["Synapse"].append(layer_data)
+		os.remove("layer.out")
+		file=open(location,"w")
+		file.write(json.dumps(out_obj))
+		file.close()
+
+		print("Saved neural network to file <{}>.".format(location))
 
 
 
 
+		#file.close()
 
+	def Load(self,location):
+		file=open(location,"r")
+		in_obj=json.loads(file.read())
+		file.close()
 
-if __name__=="__main__":
-	#Run the test network
-	nn=NeuralNetwork(inputs=2,outputs=2)
+		self.Dimensions=in_obj["Dimensions"]
 
+		for string in in_obj["Synapse"]:
+			string=string.replace(" <break> ","\n")
+			temp_file=open("layer.out","w")
+			temp_file.write(string)
+			temp_file.close();temp_file=open("layer.out","r")
 
-	nn.Add(input=[1,0],output=[1,1])
-	nn.Add(input=[0,1],output=[0,1])
-	nn.Train()
-	print(nn.Run(input=[1,0]))
-	print(nn.Run(input=[0,1]))
-	print(nn.Run(input=[0,0]))
+			self.Synapse.append( np.loadtxt(temp_file))
+
+		os.remove("layer.out")
+
+		print("Loaded neural network from file <{}>.".format(location))
