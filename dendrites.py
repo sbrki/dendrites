@@ -1,3 +1,8 @@
+# This code is partly inspired by Ryan Harris-es code
+# on back propagation neural networks.
+
+
+
 import numpy as np
 import json
 import os
@@ -187,6 +192,10 @@ class NeuralNetwork:
 
 
 	def Train(self,rate=0.02,margin=0.01,max_times=10000,force_convergence=False):
+		"""Trains the network based on the supervised dataset
+		that user provided with the "Add" method."""
+
+		
 		if force_convergence:
 			margin=0.0
 		error=margin+1 #just so we enter the while loop down below
@@ -214,6 +223,7 @@ class NeuralNetwork:
 	# supervised dataset.
 
 	def Add(self,input,output):
+		"""Adds a user dataset as a supervised dataset."""
 
 		if len(input)!=self.Dimensions[0]:
 			raise ValueError("Number of provided inputs is not the same as the\
@@ -237,7 +247,7 @@ class NeuralNetwork:
 
 
 	def Save(self,location):
-		#file = open(location, 'wb')
+		"""Saves the synapse, NumPy array by array."""
 		out_obj=dict()
 		out_obj["Dimensions"]=self.Dimensions
 		out_obj["Synapse"]=list()
@@ -256,9 +266,9 @@ class NeuralNetwork:
 
 
 
-		#file.close()
 
 	def Load(self,location):
+		"""Reads the synapse from a saved file."""
 		file=open(location,"r")
 		in_obj=json.loads(file.read())
 		file.close()
