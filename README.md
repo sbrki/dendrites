@@ -152,4 +152,4 @@ MyLoadedNeuralNet = dendrites.NeuralNetwork()
 MyLoadedNeuralNet.Load( location="net.dat" )
 ```
 
-Creates a new neural network MyLoadedNet and loads it from the file `net.dat`. We can now Run MyLoadedNet and it will behave the same way the previous network (we saved to `net.dat` file) did.
+Creates a new neural network MyLoadedNeuralNet and loads it from the file `net.dat`. We can now Run MyLoadedNeuralNet and it will behave the same way the previous network (we saved to `net.dat` file) did.
