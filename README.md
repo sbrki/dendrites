@@ -11,7 +11,7 @@ being ignored either.
 
 The main purpose of dendrites is to be a **ultra easy to use** neural network.
 
-** Note: This repo is heavy work in progress, but it fundamentally
+**Note: This repo is heavy work in progress, but it fundamentally
 works. Every help is welcome**
 
 ---
