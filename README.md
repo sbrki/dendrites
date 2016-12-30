@@ -30,7 +30,7 @@ If you don't have numpy already installed, run: `sudo pip3 install numpy`.
 ```python
 import dendrites
 
-MyNeuralNet = dendrites.NeuralNetwork(dimensions = (2,3) )
+MyNeuralNet = dendrites.NeuralNetwork( dimensions = (2,3) )
 ```
 
 This code creates a NeuralNetwork instance.
@@ -42,7 +42,7 @@ The first layer has 2 inputs, and the second layer has 3 outputs.
 Therefore, our network has 2 inputs and 3 outputs.
 
 
-If we wanted a third, *"middle"* layer with 10 nodes, we would write:
+If we wanted a third, *"middle"* layer with 5 nodes, we would write:
 ```python
 MyNeuralNet = dendrites.NeuralNetwork( dimensions = ( 2,5,3) )
 ```
