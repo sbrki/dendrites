@@ -76,10 +76,7 @@ class NeuralNetwork:
         print("Creating the synapse...")
 
         for (out, inp) in zip(self.dimensions[:-1], self.dimensions[1:]):
-            self.synapse.append(
-                np.random.normal(
-                    scale=0.2, size=(
-                        inp, out + 1)))
+            self.synapse.append(np.random.normal(scale=0.2, size=(inp, out + 1)))
         print("Created the synapse with {} elements.".format(len(self.synapse)))
 
     # # # # # # # # # # # # # # # # # # #
@@ -155,23 +152,13 @@ class NeuralNetwork:
         # Compute deltas for the "hidden layer(s)"
         for i in reversed(range(1, len(self.dimensions) - 1)):
             delta_pullback_matrice = np.dot(self.synapse[i].T, deltas[-1])
-            deltas.append(
-                delta_pullback_matrice[
-                    :-
-                    1:] *
-                self.sigmoid(
-                    self.layer_inputs[i],
-                    derivative=True))
+            deltas.append(delta_pullback_matrice[:-1:] *
+                          self.sigmoid(self.layer_inputs[i], derivative=True))
 
         # Compute deltas for the last layer, the "input" layer (neutrons)
         delta_pullback_matrice = np.dot(self.synapse[0].T, deltas[-1])
-        deltas.append(
-            delta_pullback_matrice[
-                :-
-                1:] *
-            self.sigmoid(
-                self.layer_outputs[0],
-                derivative=True))
+        deltas.append(delta_pullback_matrice[:-1:] *
+                      self.sigmoid(self.layer_outputs[0], derivative=True))
 
         # # # # # # # # # # # # # # # # # # #
         # Calculate synapse (weight) deltas
