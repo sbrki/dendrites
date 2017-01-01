@@ -10,39 +10,38 @@ import os
 class NeuralNetwork:
     """Creates a Neural Network"""
 
-    # Total number of layers, including input layer, output layer
-    # and the "hidden layers"
-    number_of_layers = None
-
-    # Dimensions of the net, as a touple. Each element of a touple
-    # tells how many neurons are in his "layer".
-    # e.g. neural net with 2 inputs, 1 hidden layer with 5 neurons
-    # and 3 outpus has Dimensions of (2,5,3)
-
-    dimensions = tuple()
-
-    # Synapse is an array of matrices that represent weights.
-    # I prefer the term synapse because weights don't really have
-    # all that much to do with neurons.
-
-    synapse = list()
-
-    # LayerInputs is an array containing matrices with inputs to layers
-
-    layer_inputs = list()
-
-    # LayerInputs is an array containing matrices with output of layers
-
-    layer_outputs = list()
-
-    # Supervised inputs and outputs is the dataset used to train the network
-
-    supervised_inputs = None
-
-    supervised_outputs = None
-
     def __init__(self, **kwargs):
         """Initializes the network"""
+        # Total number of layers, including input layer, output layer
+        # and the "hidden layers"
+        self.number_of_layers = None
+
+        # Dimensions of the net, as a touple. Each element of a touple
+        # tells how many neurons are in his "layer".
+        # e.g. neural net with 2 inputs, 1 hidden layer with 5 neurons
+        # and 3 outpus has Dimensions of (2,5,3)
+
+        self.dimensions = tuple()
+
+        # Synapse is an array of matrices that represent weights.
+        # I prefer the term synapse because weights don't really have
+        # all that much to do with neurons.
+
+        self.synapse = list()
+
+        # LayerInputs is an array containing matrices with inputs to layers
+
+        self.layer_inputs = list()
+
+        # LayerInputs is an array containing matrices with output of layers
+
+        self.layer_outputs = list()
+
+        # Supervised inputs and outputs is the dataset used to train the network
+
+        self.supervised_inputs = None
+
+        self.supervised_outputs = None
 
         # # # # # # # # # # # # # # # # # # #
         # Get the network (matrix) dimensions
