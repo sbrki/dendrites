@@ -10,7 +10,7 @@ import os
 class NeuralNetwork:
     """Creates a Neural Network"""
 
-    def __init__(self, **kwargs):
+    def __init__(self, inputs=None, outputs=None, hidden_layers=None, dimensions=None):
         """Initializes the network"""
         # Total number of layers, including input layer, output layer
         # and the "hidden layers"
@@ -50,11 +50,11 @@ class NeuralNetwork:
 
         # User can define the dimensions of the net in two ways.
         # First, simpler, is by defining number of inputs and outputs.
-        if "inputs" in kwargs.keys():
-            inputs = kwargs["inputs"]
-            outputs = kwargs["outputs"]
-            hidden_layers = kwargs.get('hidden_layers', 1)
-            scale = kwargs.get("initial_weight_scale", 0.2)
+        if inputs is not None:
+            if hidden_layers is None:
+                hidden_layers = 1
+
+            self.number_of_layers = hidden_layers + 2
 
             self.number_of_layers = hidden_layers + 2
 
@@ -64,8 +64,9 @@ class NeuralNetwork:
             self.dimensions += (outputs,)
 
             # Second one is by defining the Dimensions themself.
-        elif "dimensions" in kwargs.keys():
-            self.dimensions = kwargs["dimensions"]
+
+        elif dimensions is not None:
+            self.dimensions = dimensions
 
         print("Created a network with dimensions {}".format(self.dimensions))
 
@@ -194,12 +195,7 @@ class NeuralNetwork:
     # based on the provided
     # supervised dataset.
 
-    def train(
-            self,
-            rate=0.02,
-            margin=0.01,
-            max_times=10000,
-            force_convergence=False):
+    def train(self, rate=0.02, margin=0.01, max_times=10000, force_convergence=False):
         """Trains the network based on the supervised dataset
         that user provided with the "Add" method."""
 
@@ -213,12 +209,8 @@ class NeuralNetwork:
 
         while (error > margin) and ((count < max_times) or force_convergence):
             count += 1
-            old_error = error
             error = self.backpropagation_step(
                 input=input, target=target, rate=rate)
-            # if error>old_error:
-            #	print("Done/Abort - error started increasing.")
-            #	break
             if count % (max_times / 1000) == 0:
                 print("\rGeneration = {}, error = {}".format(count, error))
         print("Done training.")
