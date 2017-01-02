@@ -44,7 +44,7 @@ Therefore, our network has 2 inputs and 3 outputs.
 
 If we wanted a third, *"middle"* layer with 5 nodes, we would write:
 ```python
-my_neural_net = dendrites.NeuralNetwork( dimensions = ( 2,5,3) )
+my_neural_net = dendrites.NeuralNetwork( dimensions = (2,5,3) )
 ```
 
 --
