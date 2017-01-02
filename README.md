@@ -141,7 +141,7 @@ network again, can read it from the file and we wont need to Train it again.
 my_neural_net.save( location = "net.dat" )
 ```
 
-Saves the neural network MyNeuralNet to a local file `net.dat`.
+Saves the neural network `my_neural_net` to a local file `net.dat`.
 
 
 --
@@ -156,4 +156,4 @@ my_loaded_neural_net = dendrites.NeuralNetwork()
 my_loaded_neural_net.load( location = "net.dat" )
 ```
 
-Creates a new neural network MyLoadedNeuralNet and loads it from the file `net.dat`. We can now Run MyLoadedNeuralNet and it will behave the same way the previous network (we saved to `net.dat` file) did.
+Creates a new neural network `my_loaded_neural_net` and loads it from the file `net.dat`. We can now Run `my_loaded_neural_net` and it will behave the same way the previous network (we saved to `net.dat` file) did.
