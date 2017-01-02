@@ -150,6 +150,8 @@ Saves the neural network MyNeuralNet to a local file `net.dat`.
 ###Reading the network from a file
 
 ```python
+import dendrites
+
 my_loaded_neural_net = dendrites.NeuralNetwork()
 my_loaded_neural_net.load( location = "net.dat" )
 ```
