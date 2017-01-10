@@ -5,7 +5,6 @@
 import numpy as np
 import io
 import json
-import os
 
 
 class NeuralNetwork:
