@@ -7,7 +7,6 @@ import io
 import json
 import os
 
-
 class NeuralNetwork:
     """Creates a Neural Network"""
 
@@ -200,8 +199,9 @@ class NeuralNetwork:
             error = self.backpropagation_step(
                 input=input, target=target, rate=rate)
             if count % (max_times / 1000) == 0:
-                print("\rGeneration = {}, error = {}".format(count, error))
-        print("Done training.")
+                print("Generation = {}, error = {}".format(count, error), end='\r')
+
+        print("\nDone training.")
 
     # # # # # # # # # # # # # # # # # # #
     # Add method
