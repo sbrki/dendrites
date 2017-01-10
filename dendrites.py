@@ -3,6 +3,7 @@
 
 
 import numpy as np
+import io
 import json
 import os
 
@@ -251,21 +252,14 @@ class NeuralNetwork:
 
     def load(self, location):
         """Reads the synapse from a saved file."""
-        file = open(location, "r")
-        in_obj = json.loads(file.read())
-        file.close()
+        with open(location, "r") as dat_file:
+            in_obj = json.loads(dat_file.read())
 
         self.dimensions = in_obj["Dimensions"]
 
         for string in in_obj["Synapse"]:
-            string = string.replace(" <break> ", "\n")
-            temp_file = open("layer.out", "w")
-            temp_file.write(string)
-            temp_file.close()
-            temp_file = open("layer.out", "r")
-
+            temp_file = io.StringIO(string.replace(" <break> ", "\n"))
+            temp_file.seek(0)
             self.synapse.append(np.loadtxt(temp_file))
-
-        os.remove("layer.out")
 
         print("Loaded neural network from file <{}>.".format(location))
