@@ -43,9 +43,7 @@ class NeuralNetwork:
 
         self.supervised_outputs = None
 
-        # # # # # # # # # # # # # # # # # # #
         # Get the network (matrix) dimensions
-        # # # # # # # # # # # # # # # # # # #
         print("Getting network dimensions...")
 
         # User can define the dimensions of the net in two ways.
@@ -70,40 +68,47 @@ class NeuralNetwork:
 
         print("Created a network with dimensions {}".format(self.dimensions))
 
-        # # # # # # # # # # # # # # # # # # #
         # Create the synapse.
-        # # # # # # # # # # # # # # # # # # #
         print("Creating the synapse...")
 
         for (out, inp) in zip(self.dimensions[:-1], self.dimensions[1:]):
             self.synapse.append(np.random.normal(scale=0.2, size=(inp, out + 1)))
         print("Created the synapse with {} elements.".format(len(self.synapse)))
 
-    # # # # # # # # # # # # # # # # # # #
-    # Transfer functions
-    # # # # # # # # # # # # # # # # # # #
-
     def sigmoid(self, x, derivative=False):
+        """
+        Sigmoid function.
+
+        :param x: input
+        :type x: float
+        :param derivative: Return derivative instead if true.
+        :type derivative: bool
+        :return: result
+        :rtype: float
+        """
         if derivative:
             result = self.sigmoid(x)
             return result * (1 - result)
         else:
             return 1 / (1 + np.exp(-x))
 
-    # # # # # # # # # # # # # # # # # # #
-    # Run method
-    # # # # # # # # # # # # # # # # # # #
-
     def _run(self, input):
-        """Runs the network with the providen inputs"""
+        """
+        Runs the network against the provided input
+
+        :param input: Input to run the network against
+        :type input: numpy.ndarray
+        :return: Result of running the network against the input
+        :rtype: numpy.ndarray
+        """
 
         # Check if the number of inputs equals to the size of the input layer.
         if len(input) != self.dimensions[0]:
-            raise ValueError(
-                "The number of providen inputs is not compliant with the network you specified.")
+            raise ValueError("{} inputs were provided, but the network requires {}.".format(len(input),
+                                                                                            self.dimensions[0]))
 
         # Handling the first layer
-        # Turn the input touple into a column matrice
+        # Turn the input tuple into a numpy array
         input = np.array(input)
 
         self.layer_outputs.append(input)
@@ -124,17 +129,31 @@ class NeuralNetwork:
         return self.layer_outputs[-1]
 
     def run(self, input):
+        """
+        Runs the network using human-readable input and generates human-readable output.
+
+        :param input: Input to provide to the network.
+        :type input: list
+        :return: Result of running the network against the input
+        :rtype: list
+        """
         result = self._run(input=np.array([input]).T)
         human_result = [e[0] for e in result]
         return human_result
 
-    # # # # # # # # # # # # # # # # # # #
-    # BackPropagationStep method
-    # # # # # # # # # # # # # # # # # # #
-    # Updates the weights for a single step.
-
     def backpropagation_step(self, input, target, rate=0.2):
-        """Trains the network for one step."""
+        """
+        Trains the network.
+
+        :param input: supervised input
+        :type input: numpy.ndarray
+        :param target: targeted output
+        :type target: numpy.ndarray
+        :param rate: rate for calculating synapse (weight) deltas
+        :type rate: float
+        :return: Degree of error after training.
+        :rtype: float
+        """
         target = np.array(target)
 
         # Run the network
@@ -160,10 +179,7 @@ class NeuralNetwork:
         deltas.append(delta_pullback_matrice[:-1:] *
                       self.sigmoid(self.layer_outputs[0], derivative=True))
 
-        # # # # # # # # # # # # # # # # # # #
         # Calculate synapse (weight) deltas
-        # # # # # # # # # # # # # # # # # # #
-
         deltas = deltas[::-1]
         for i in range(0, len(self.dimensions) - 1):
             layer_output = np.vstack(
@@ -175,16 +191,19 @@ class NeuralNetwork:
 
         return error
 
-    # # # # # # # # # # # # # # # # # # #
-    # Train method
-    # # # # # # # # # # # # # # # # # # #
-    # method that trains the network
-    # based on the provided
-    # supervised dataset.
-
     def train(self, rate=0.02, margin=0.01, max_times=10000, force_convergence=False):
-        """Trains the network based on the supervised dataset
-        that user provided with the "Add" method."""
+        """
+        Trains the network until the specified margin is reached, or after a specified number of attempts.
+
+        :param rate: Rate for calculating synapse (weight) deltas
+        :type rate: float
+        :param margin: Desired degree of error for the network
+        :type margin: float
+        :param max_times: Maximum number of times the network will be trained
+        :type max_times: int
+        :param force_convergence: Require network to train until margin is 0.0;  Overrides margin if specified
+        :type force_convergence: bool
+        """
 
         if force_convergence:
             margin = 0.0
@@ -202,21 +221,22 @@ class NeuralNetwork:
                 print("\rGeneration = {}, error = {}".format(count, error))
         print("Done training.")
 
-    # # # # # # # # # # # # # # # # # # #
-    # Add method
-    # # # # # # # # # # # # # # # # # # #
-    # method that adds user dataset as a
-    # supervised dataset.
-
     def add(self, input, output):
-        """Adds a user dataset as a supervised dataset."""
+        """
+        Adds a user dataset as a supervised dataset.
+
+        :param input: Input of dataset.
+        :type input: list
+        :param output: Output of dataset.
+        :type output: list
+        """
 
         if len(input) != self.dimensions[0]:
-            raise ValueError("Number of provided inputs is not the same as the"
-                             "number of inputs of the network.")
+            raise ValueError("{} inputs were provided, but the network requires {}.".format(len(input),
+                                                                                            self.dimensions[0]))
         if len(output) != self.dimensions[-1]:
-            raise ValueError("Number of provided outputs is not the same as the"
-                             "number of outputs of the network.")
+            raise ValueError("{} outputs were provided, but the network requires {}.".format(len(output),
+                                                                                             self.dimensions[-1]))
 
         input = np.array([input])
         output = np.array([output])
@@ -256,7 +276,12 @@ class NeuralNetwork:
         print("Saved neural network to file <{}>.".format(location))
 
     def load(self, location):
-        """Reads the synapse from a saved file."""
+        """
+        Read the network from a file.
+
+        :param location: The path to the file.
+        :type location: str
+        """
         with open(location, "r") as dat_file:
             in_obj = json.loads(dat_file.read())
 
