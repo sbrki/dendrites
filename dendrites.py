@@ -234,19 +234,25 @@ class NeuralNetwork:
                 [self.supervised_outputs, output])
 
     def save(self, location):
-        """Saves the synapse, NumPy array by array."""
+        """
+        Saves the synapse, NumPy array by array.
+
+        :param location: File name to save the synapse to
+        :type location: str
+
+        """
         out_obj = dict()
         out_obj["Dimensions"] = self.dimensions
         out_obj["Synapse"] = list()
-        for i in range(len(self.synapse)):
-            np.savetxt("layer.out", self.synapse[i])
-            layer_data = open("layer.out").read()
-            layer_data = layer_data.replace("\n", " <break> ")
-            out_obj["Synapse"].append(layer_data)
-        os.remove("layer.out")
-        file = open(location, "w")
-        file.write(json.dumps(out_obj))
-        file.close()
+
+        for s in self.synapse:
+            temp = io.BytesIO()
+            np.savetxt(temp, s, newline=" <break> ")
+            temp.seek(0)
+            out_obj["Synapse"].append(temp.read()[:-9].decode())
+
+        with open(location, "w") as out_file:
+            out_file.write(json.dumps(out_obj))
 
         print("Saved neural network to file <{}>.".format(location))
 
