@@ -6,6 +6,7 @@ import numpy as np
 import io
 import json
 
+
 class NeuralNetwork:
     """Creates a Neural Network"""
 
