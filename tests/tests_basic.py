@@ -3,7 +3,6 @@ import unittest
 sys.path.append("..")
 
 
-#test object creation
 import dendrites
 
 
@@ -67,7 +66,7 @@ class TestTraining(unittest.TestCase):
 class TestRunning(unittest.TestCase):
     def setUp(self):
         self.test_inputs = [1, 0, 1]
-        self.test_outputs = [1, 1]
+        self.test_outputs = [1, 0]
 
         self.neural_network = dendrites.NeuralNetwork( dimensions = (3,4,2) )
         self.neural_network.add( input = self.test_inputs, output = self.test_outputs )
@@ -76,8 +75,8 @@ class TestRunning(unittest.TestCase):
     def test_run(self):
         network_output = self.neural_network.run(input = self.test_inputs)
 
-        for index, result in enumerate(network_output):
-            self.assertEqual(self.test_outputs[index], round(result))
+        for index, expected_result in enumerate(self.test_outputs):
+            self.assertEqual(expected_result, round(network_output[index]))
 
 
 
