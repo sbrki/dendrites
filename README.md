@@ -68,7 +68,7 @@ The neural network then tries to predict how many hidden layers it should have. 
 
 -- 
 
-###Adding a supervised dataset
+### Adding a supervised dataset
 
 In order to tell our neural network how to behave when a certain input is brought to the input layer, we add what we call *a supervised dataset*.
 
@@ -82,7 +82,7 @@ my_neural_net.add( input = [0,1], output = [0,1,0] )
 
 --
 
-###Training the network
+### Training the network
 
 Lets say we added a supervised dataset to our network. But we can't run our network yet,
 
@@ -117,7 +117,7 @@ This is not recommended, as it can take a really long time for the network to tr
 
 --
 
-###Running the network
+### Running the network
 
 By running:
 ```python
@@ -135,7 +135,7 @@ the synapse nodes are initiated with random weights.
 
 --
 
-###Saving the network to a file
+### Saving the network to a file
 
 When we have finished training our network, we can save it to a file. This way if we wanted to
 use our network again, it can be read from the file and we wont need to `train` it again.
@@ -150,7 +150,7 @@ Saves the neural network `my_neural_net` to a local file `net.dat`.
 --
 
 
-###Reading the network from a file
+### Reading the network from a file
 
 ```python
 import dendrites
