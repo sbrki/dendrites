@@ -2,11 +2,15 @@
 
 ### Neural networks for humans
 ---
+
+## Preface
+
 ### Concept:
+
 Dendrites aims to be a straightfoward and
 very easy to use neural network tool in/for Python3.
 
-With dendrites, **performance is not in the main focus** (yet), but it is not 
+With dendrites, **performance is not in the main focus** (yet), but it is not
 being ignored either.
 
 The main purpose of dendrites is to be a **ultra easy to use** neural network.
@@ -14,7 +18,7 @@ The main purpose of dendrites is to be a **ultra easy to use** neural network.
 **Note: This repo is heavy work in progress, but it fundamentally
 works. Any help is welcome**
 
----
+&nbsp;
 
 ### Requirements:
 
@@ -25,7 +29,7 @@ If you don't have numpy already installed, run: `sudo pip3 install numpy`.
 ---
 
 ## Manual
-### Creating a NeuralNetwork object
+### 1. Creating a NeuralNetwork object
 
 ```python
 import dendrites
@@ -49,11 +53,11 @@ import dendrites
 my_neural_net = dendrites.NeuralNetwork( dimensions = (2,5,3) )
 ```
 
---
+---
 
-### Creating a NeuralNetwork object with only the number of inputs and outputs
+### 1.b Creating a NeuralNetwork object with only the number of inputs and outputs
 
-You can also create a NeuralNetwork instance only by telling it how many 
+You can also create a NeuralNetwork instance only by telling it how many
 inputs and outputs to have. This is even more simple than the previous method.
 
 ```python
@@ -66,9 +70,9 @@ The above code creates a NeuralNetwork instance with 2 inputs and 3 outputs.
 
 The neural network then tries to predict how many hidden layers it should have. (*Heavy work in progress*)
 
--- 
+---
 
-### Adding a supervised dataset
+### 2. Adding a supervised dataset
 
 In order to tell our neural network how to behave when a certain input is brought to the input layer, we add what we call *a supervised dataset*.
 
@@ -80,9 +84,9 @@ Lets instruct it to bring `0 , 1 , 0` to output when `0 , 1` is brought to input
 my_neural_net.add( input = [0,1], output = [0,1,0] )
 ```
 
---
+---
 
-### Training the network
+### 3. Training the network
 
 Lets say we added a supervised dataset to our network. But we can't run our network yet,
 
@@ -106,7 +110,7 @@ my_neural_net.train( margin = 0.1 )
 ```
 
 
-Also, we could also want for out network to train until the difference margin (error)
+Also, we could potentially want for out network to train until the difference margin (error)
 is virtually zero. Then, we would write:
 
 ```python
@@ -115,9 +119,9 @@ my_neural_net.train( force_convergence = True )
 
 This is not recommended, as it can take a really long time for the network to train this way.
 
---
+---
 
-### Running the network
+### 4. Running the network
 
 By running:
 ```python
@@ -130,12 +134,12 @@ The network output is also a list, with the dimensions we specified earlier.
 
 
 *Note*: you can `run` your network before you have trained it.
-However, the network will give out a random result, because every time you create a network, 
+However, the network will give out a random result, because every time you create a network,
 the synapse nodes are initiated with random weights.
 
---
+---
 
-### Saving the network to a file
+### 5. Saving the network to a file
 
 When we have finished training our network, we can save it to a file. This way if we wanted to
 use our network again, it can be read from the file and we wont need to `train` it again.
@@ -147,10 +151,10 @@ my_neural_net.save( location = "net.dat" )
 Saves the neural network `my_neural_net` to a local file `net.dat`.
 
 
---
+---
 
 
-### Reading the network from a file
+### 6. Reading the network from a file
 
 ```python
 import dendrites
