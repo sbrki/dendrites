@@ -1,10 +1,9 @@
 from setuptools import setup
 
-import dendrites
 
 setup(
     name='dendrites',
-    version=dendrites.__version__,
+    version="0.1.1",
     packages=[
         'dendrites'
     ],
