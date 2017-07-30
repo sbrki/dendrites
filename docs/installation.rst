@@ -1,4 +1,4 @@
-Instalation
+Installation
 =====================================
 
 You can install dendrites via **pip3**: ::
