@@ -56,4 +56,4 @@ print(MyLoadedNeuralNet.run(input = [0, 1]))
 
 ---
 
-For more info, check the documentation page.
+For more info, visit the **[documentation page](http://dendrites.readthedocs.io/en/latest/).**
