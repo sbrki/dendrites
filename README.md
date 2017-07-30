@@ -10,7 +10,7 @@ very easy to use neural network tool for Python 3.*
 
 ---
 
-# Instalation
+# Installation
 
 `pip3 install dendrites`
 
