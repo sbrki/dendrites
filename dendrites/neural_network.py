@@ -5,19 +5,23 @@
 import numpy as np
 import io
 import json
-import logging, sys
+import logging
 from .log_format import LogFormat
+
+
+# Initialize logging
+logging.getLogger(__name__).addHandler(
+    logging.NullHandler
+)
+
 
 class NeuralNetwork:
     """Creates a Neural Network"""
 
-    def __init__(self, inputs=None, outputs=None, hidden_layers=None, dimensions=None,
-                 logger_string="dendrites"):
+    def __init__(self, inputs=None, outputs=None, hidden_layers=None, dimensions=None):
         """Initializes the network"""
 
-        # Set up the logger
-        self.logger = logging.getLogger(logger_string)
-        self.logger.info(LogFormat.INIT_START)
+        logging.debug(LogFormat.INIT_START)
 
         # Total number of layers, including input layer, output layer
         # and the "hidden layers"
@@ -51,7 +55,7 @@ class NeuralNetwork:
         self.supervised_outputs = None
 
         # Get the network (matrix) dimensions
-        self.logger.info("{}Getting network dimensions".format( LogFormat.INIT))
+        logging.debug("{}Getting network dimensions".format( LogFormat.INIT))
 
         # User can define the dimensions of the net in two ways.
         # First, simpler, is by defining number of inputs and outputs.
@@ -73,7 +77,7 @@ class NeuralNetwork:
         elif dimensions is not None:
             self.dimensions = dimensions
 
-        self.logger.info(
+        logging.debug(
             "{}Created a network with dimensions: {}".format(
                 LogFormat.INIT,
                 self.dimensions
@@ -81,20 +85,23 @@ class NeuralNetwork:
         )
 
         # Create the synapse.
-        self.logger.info(
+        logging.debug(
             "{}Creating the synapse...".format(LogFormat.INIT)
         )
 
         for (out, inp) in zip(self.dimensions[:-1], self.dimensions[1:]):
             self.synapse.append(np.random.normal(scale=0.2, size=(inp, out + 1)))
 
-        self.logger.info(
+        logging.debug(
             "{}Created the synapse with {} elements.".format(
                 LogFormat.INIT,
                 len(self.synapse)
             )
         )
-        self.logger.info("{}".format(LogFormat.INIT_DONE))
+        logging.info("{}".format(
+            LogFormat.INIT_DONE
+            )
+        )
 
     def sigmoid(self, x, derivative=False):
         """
@@ -226,7 +233,7 @@ class NeuralNetwork:
         :type force_convergence: bool
         """
 
-        self.logger.info("{}".format(LogFormat.TRAINING_START))
+        logging.info("{}".format(LogFormat.TRAINING_START))
 
         if force_convergence:
             margin = 0.0
@@ -241,14 +248,14 @@ class NeuralNetwork:
             error = self.backpropagation_step(
                 input=input, target=target, rate=rate)
             if count % (max_times / 1000) == 0:
-                self.logger.debug("{}Generation = {}{}{}, error = {}{}{}".format(
+                logging.debug("{}Generation = {}{}{}, error = {}{}{}".format(
                     LogFormat.TRAINING,
                     LogFormat.OKBLUE,count,LogFormat.ENDC,
                     LogFormat.WARNING, error, LogFormat.ENDC
                     )
                 )
 
-        self.logger.info("{}".format(LogFormat.TRAINING_DONE))
+        logging.info("{}, in {} generations, with a final error of {}".format(LogFormat.TRAINING_DONE, count, error))
 
     def add(self, input, output):
         """
@@ -302,7 +309,7 @@ class NeuralNetwork:
         with open(location, "w") as out_file:
             out_file.write(json.dumps(out_obj))
 
-        self.logger.info("{}Saved neural network to file <{}>.".format(LogFormat.SAVE, location))
+        logging.info("{}Saved neural network to file <{}>.".format(LogFormat.SAVE, location))
 
     def load(self, location):
         """
@@ -321,4 +328,8 @@ class NeuralNetwork:
             temp_file.seek(0)
             self.synapse.append(np.loadtxt(temp_file))
 
-        self.logger.info("{}Loaded neural network from file <{}>.".format(LogFormat.LOAD, location))
+        logging.info("{}Loaded neural network from file <{}>".format(
+            LogFormat.LOAD,
+            location
+            )
+        )

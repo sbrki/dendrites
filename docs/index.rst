@@ -13,6 +13,10 @@ for Python3.
 
 .. include:: ./quickstart.rst
 
+
+Contents
+---------
+
 .. toctree::
    :maxdepth: 2
 
