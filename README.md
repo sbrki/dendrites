@@ -9,6 +9,7 @@
 very easy to use neural network tool for Python 3.*
 
 **[Official documentation page](http://dendrites.readthedocs.io/en/latest/).**
+
 ---
 
 # Installation
